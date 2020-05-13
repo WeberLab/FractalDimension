@@ -31,7 +31,8 @@ W = zeros(N, 1);
 for j = 1:N
     W(j) = 1 - (2*j/(N+1)-1).^2; % parabolic window
 end
-signal_pw = rawBOLD_sub.*W;
+rawBOLD_sub_double = double(rawBOLD_sub); %convert form int16 to double
+signal_pw = rawBOLD_sub_double.*W;
 
 % Matching the ends:
 y11 = signal_pw(1); y21 = signal_pw(end);
@@ -77,6 +78,7 @@ if (~isempty(logPSD_c) && ~isempty(logfreq_c))
     
     % Beta is the negative of the slope of the fitted line:
     Beta = -1 * fits_result(1);
+    disp(['Beta is: ', num2str(Beta)])
     %RSquare_Beta = fit_goodness.rsquare;
 else
     disp('signal is noise')
@@ -196,11 +198,12 @@ elseif((Beta >= 0.38 && Beta <= 1.04) && ~abort)
     
     Hurst= fits_result.p1;
     %Stats_RSquare = fit_goodness.rsquare;
+    disp(['Hurst after summation is: ', num2str(Hurst)])
     
     if(Hurst < 0.8)
         % The signal is an fGn signal, so can do dispersion analysis on it
         % to get final Hurst
-        
+        disp('signal is now classified as fGn')
         maxBins = nextpow2(length(rawBOLD)) - 1;
         signal_2 = rawBOLD(1 : 2^maxBins);
         
@@ -231,7 +234,7 @@ elseif((Beta >= 0.38 && Beta <= 1.04) && ~abort)
     elseif(Hurst > 1)
         %The signal is an fBm signal, so can do SWV analysis on it to get
         %final Hurst
-        
+        disp('signal is now classified as fBm')
         maxBins = nextpow2(length(rawBOLD)) - 1;
         signal_3 = signal_em1(1 : 2^maxBins);
         
@@ -260,9 +263,10 @@ elseif((Beta >= 0.38 && Beta <= 1.04) && ~abort)
         % If H is not less than 0.8 or larger than 1, then it can't be
         % classified
         Hurst = NaN;
-        disp('H is between 0.8 and 1')
+        disp('H is between 0.8 and 1 and cannot be classified')
     end
 else
     disp('signal is noise?')
     Hurst = NaN;
+
 end
