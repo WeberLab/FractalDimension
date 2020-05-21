@@ -1,0 +1,2 @@
+CVR_DEV_V08_WIP_FMRI_CVR_322DYN_ZERO_SENSE_14_1_mcf.nii.gz is the motion corrected fMRI data from the spinal cord injury study, pilot 08
+
