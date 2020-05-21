@@ -82,7 +82,7 @@ lgPyy=log(Pyy);
 lgfrek=log(frek);
 % lgfrek: Natural log of frequency
 % lgPyy: Natural log of Power spectrum
-curvefit=linreg(lgfrek,lgPyy);
+curvefit=Linreg(lgfrek,lgPyy);
 % curvefit: (1): slope from linear regression
 %	    (2): correlation coefficient from linear regression
 result(3)=curvefit(1)*(-1);
@@ -97,9 +97,9 @@ if result(3)==1,
 	result(1)=inf;
 end;
 if avg==1,
-   curvefit=linreg(lgfrek(1:length(lgfrek)-2),lgPyy(1:length(lgPyy)-2));
+   curvefit=Linreg(lgfrek(1:length(lgfrek)-2),lgPyy(1:length(lgPyy)-2));
 else
-   curvefit=linreg(lgfrek(1:floor(length(lgfrek)/4)),lgPyy(1:floor(length(lgPyy)/4)));
+   curvefit=Linreg(lgfrek(1:floor(length(lgfrek)/4)),lgPyy(1:floor(length(lgPyy)/4)));
 end;
 % curvefit: (1): slope from linear regression
 %	    (2): correlation coefficient from linear regression

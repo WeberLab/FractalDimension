@@ -75,7 +75,7 @@ for i=used1:used2,
 	sd=[];
 	for j=1:2^i:n-i,
 		tsmod=ts(j:j+2^i-1);
-		tsid=bridge(tsmod);
+		tsid=Bridge(tsmod);
 		tsmod=[];
 		sd(counter)=std(tsid);
 		tsid=[];
@@ -86,7 +86,7 @@ for i=used1:used2,
 end;
 % lgsd: Natural log of average standard deviation
 % lgn: Natural log of bin size
-curvefit=linreg(lgn,lgsd);
+curvefit=Linreg(lgn,lgsd);
 % curvefit: (1): slope from linear regression
 %	    (2): correlation coefficient from linear regression
 result(1)=curvefit(1);

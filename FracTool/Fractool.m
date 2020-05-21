@@ -210,21 +210,21 @@ getready__time=etime(clock,t0)
 
 % Calculates beta using lowPSDw,e
 
-result=spec(bridge(window(tsid)),p,0);
+result=Spec(Bridge(Window(tsid)),p,0);
 
 if(result(6)<0.38) & (result(6)>-1),
    H_PSD=(result(6)+1)/2;
-   temp=disper(tsid,p);
+   temp=Disper(tsid,p);
    H_Disp=temp(1);
    H_fGn=(H_PSD+H_Disp)/2;
    class=0;
 elseif (result(6)>=0.38) & (result(6)<=1.04),
    ts=cumsum(tsid);
-   temp=bdswv(ts,p);
+   temp=Bdswv(ts,p);
    HH=temp(1);
    if HH<0.8,
       H_PSD=(result(6)+1)/2;
-      temp=disper(tsid,p);
+      temp=Disper(tsid,p);
       H_Disp=temp(1);
       H_fGn=(H_PSD+H_Disp)/2;
       class=0;
@@ -232,14 +232,14 @@ elseif (result(6)>=0.38) & (result(6)<=1.04),
       class=1;
   	else HH>1,
       H_PSD=(result(6)-1)/2;
-      temp=bdswv(ts,p);
+      temp=Bdswv(ts,p);
       H_bdSWV=temp(1);
       H_fBm=(H_PSD+H_bdSWV)/2;
       class=2;
    end;
 elseif (result(6)>1.04) & (result(6)<3),
    H_PSD=(result(6)-1)/2;
-   temp=bdswv(tsid,p);
+   temp=Bdswv(tsid,p);
    H_bdSWV=temp(1);
    H_fBm=(H_PSD+H_bdSWV)/2;
    class=2;
@@ -272,9 +272,9 @@ resultsstring=[
 
  if nargin<2, outputfilename='FracTool.txt'; end;
 fid=fopen(outputfilename,'w');
-for i=1:10;
-	fprintf(fid,'%s',resultsstring(i,1:15));
-	fprintf(fid,'\t%14.10f\r\n',output(i));
-end;
+%for i=1:10;
+%	fprintf(fid,'%s',resultsstring(i,1:15));
+%	fprintf(fid,'\t%14.10f\r\n',output(i));
+%end;
 fclose(fid); 
 Elapsed__time=etime(clock,t0)

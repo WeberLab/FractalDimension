@@ -67,7 +67,7 @@ for i=1:used,
 end;
 % lgsd: Natural log of SD
 % lgn: Natural log of bin size
-curvefit=linreg(lgn,lgsd);
+curvefit=Linreg(lgn,lgsd);
 % curvefit: (1): slope from linear regression
 %	    (2): correlation coefficient from linear regression
 result(1)=1+curvefit(1);
