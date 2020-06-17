@@ -12,6 +12,7 @@ with open("Hurst_expected_pickle.txt", "rb") as fp:
 with open("signal_pickle.txt", "rb") as fp:
     raw_sig = pickle.load(fp)
 raw_sig = np.asarray(raw_sig) #convert to numpy array
+raw_sig = raw_sig.reshape(5000,1)
 n = len(Hurst_expected) #number of signals
 output = range(n) #initialize results array
 #generate expected class array
