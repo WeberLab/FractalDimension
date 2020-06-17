@@ -11,10 +11,12 @@ with open("Hurst_expected_pickle.txt", "rb") as fp:
     Hurst_expected = pickle.load(fp)
 with open("signal_pickle.txt", "rb") as fp:
     raw_sig = pickle.load(fp)
-raw_sig = np.asarray(raw_sig) #convert to numpy array
-raw_sig = raw_sig.reshape(5000,1)
+
 n = len(Hurst_expected) #number of signals
 output = range(n) #initialize results array
+raw_sig = np.asarray(raw_sig) #convert to numpy array
+print(raw_sig[1].shape)
+
 #generate expected class array
 Class_expected = np.tile([2,0], n) #since signals are alternating fGm/fBm, class will alternate between 1 and 2
 #initialize empty arrays for actual Hurst and class results from FracTool
@@ -23,13 +25,12 @@ Class_actual = np.zeros(n)
 misclassified_total = 0
 diff = 0
 summation = 0
+
 def MAE_calc(i):
     '''This function returns the MAE and miscalculation rate (MR) of FracTool, with comparision to known Hurst values 
     of the generated signal array of both fbm and fgn signals'''
     global misclassified_total #allows variables to exist in function 
     global diff
-    #splice raw_sig taking out 200 points at 1/7 increments 
-
     sp1 = raw_sig[i][0:450]
     sp2 = raw_sig[i][650:1100]
     sp3 = raw_sig[i][1300:1750]
@@ -38,10 +39,9 @@ def MAE_calc(i):
     sp6 = raw_sig[i][3250:3700]
     sp7 = raw_sig[i][3900:4350]
     sp8 = raw_sig[i][4550:5000]
-    raw_sig[i] = np.concatenate((sp1,sp2,sp3,sp4,sp5,sp6,sp7,sp8))
-
-    result = FracTool_Current.FracTool(raw_sig[i]) #run Fractool on each signal in signal array
-    #each signal is spliced from 0 to 3599 to have length 3600
+    splice_sig = np.concatenate((sp1,sp2,sp3,sp4,sp5,sp6,sp7,sp8))
+    
+    result = FracTool_Current.FracTool(splice_sig) #run Fractool on each signal in signal array
     Hurst_actual[i] = result[1] #result[1] of FracTool is Hurst value
     Class_actual[i] = result[0] #result[0] of FracTool is Class
     if Class_actual[i] != Class_expected[i]: #if signal is misclassified
