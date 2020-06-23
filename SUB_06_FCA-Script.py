@@ -13,8 +13,10 @@ import matplotlib.pyplot as plt
 
 
 #load sample slice and convert to np array
-example_slice = 'Long-timeseries_OpenfMRI/sub-06_ses-movie_task-movie_bold_mcf.nii.gz'
-slice_img = nib.load(example_slice, mmap=False)
+#example_slice = 'Long-timeseries_OpenfMRI/sub-06_ses-movie_task-movie_bold_mcf.nii.gz'
+#slice_img = nib.load(example_slice, mmap=False)
+slice_img = nib.Nifti1Image.from_filename('Long-timeseries_OpenfMRI/sub-06_ses-movie_task-movie_bold_mcf.nii.gz')
+
 slice_array = slice_img.get_fdata()
 #randomly picking slice 20 - can change 
 slice_sq = slice_array[:,:,20,:]

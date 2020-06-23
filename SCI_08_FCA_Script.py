@@ -13,8 +13,10 @@ import matplotlib.pyplot as plt
 
 
 #load sample slice and convert to np array
-example_slice = 'SCI_Pilot_08/SCI_Pilot_08_fMRI_Slice.nii.gz'
-slice_img = nib.load(example_slice, mmap=False)
+#example_slice = 'SCI_Pilot_08/SCI_Pilot_08_fMRI_Slice.nii.gz'
+#slice_img = nib.load(example_slice, mmap=False)
+slice_img = nib.Nifti1Image.from_filename('SCI_Pilot_08/SCI_Pilot_08_fMRI_Slice.nii.gz')
+
 slice_array = slice_img.get_fdata()
 slice_sq = np.squeeze(slice_array)
 #shape is (64,64,317)
