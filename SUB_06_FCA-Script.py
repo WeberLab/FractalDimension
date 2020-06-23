@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 
 
 #load sample slice and convert to np array
-example_slice = 'Long-timeseries_OpenfMRI/sub-06_ses-movie_task-movie_bold_mcf.nii'
+example_slice = 'Long-timeseries_OpenfMRI/sub-06_ses-movie_task-movie_bold_mcf.nii.gz'
 slice_img = nib.load(example_slice, mmap=False)
 slice_array = slice_img.get_fdata()
 #randomly picking slice 20 - can change 
