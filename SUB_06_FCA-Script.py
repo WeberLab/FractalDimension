@@ -19,16 +19,16 @@ slice_img = nib.Nifti1Image.from_filename('Long-timeseries_OpenfMRI/sub-06_ses-m
 
 slice_array = slice_img.get_fdata()
 #randomly picking slice 20 - can change 
-slice_sq = slice_array[:,:,20,:]
+slice_sq = slice_array[:,:,10,:]
 #signal shape: (80,80,3599)
 
 
 #images of slice:
 #imgplot = plt.imshow(slice_sq[:,:,1])
-imgplot = plt.imshow(slice_sq[:,:,1],cmap='Greys',  interpolation='nearest')
-Grey_fig = imgplot.get_figure()
-Grey_fig.savefig('Grey_Slice.png')
-plt.close(Grey_fig)
+#imgplot = plt.imshow(slice_sq[:,:,1],cmap='Greys',  interpolation='nearest')
+#Grey_fig = imgplot.get_figure()
+#Grey_fig.savefig('Grey_Slice_SUB_06.png')
+#plt.close(Grey_fig)
 
 [N1,N2,N3] = slice_sq.shape
 row = np.arange(0,N1)
@@ -57,18 +57,20 @@ Hurst_matrix = output[:,1]
 #generate heat maps
 
 Hurst_matrix = Hurst_matrix.reshape(N1,N2)
+np.savetxt('Hurst_matrix_SUB_06.txt',Hurst_matrix,fmt='%.2f')
 Hurst_map = sns.heatmap(Hurst_matrix)
 Hurst_fig = Hurst_map.get_figure()
 Hurst_fig.suptitle('Hurst Coefficient')
-Hurst_fig.savefig('Hurst_Heatmap.png')
+Hurst_fig.savefig('Hurst_Heatmap_SUB_06.png')
 plt.close(Hurst_fig)
 
 
 Class_matrix = Class_matrix.reshape(N1,N2)
+np.savetxt('Class_matrix_SUB_06.txt',Class_matrix,fmt='%.2f')
 Class_map = sns.heatmap(Class_matrix, vmin=0, vmax=3)
 Class_fig = Class_map.get_figure()
 Class_fig.suptitle('Class')
-Class_fig.savefig('Class_Heatmap.png')
+Class_fig.savefig('Class_Heatmap_SUB_06.png')
 plt.close(Class_fig)
 
 

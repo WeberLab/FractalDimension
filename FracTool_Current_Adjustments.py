@@ -379,9 +379,9 @@ def FracTool(ts, tr=1):
         H_fBm = H_bdSWV
         sig_class = 2 #signal is fBm
         Hurst = H_fBm
-        if result[4,0] > -0.55:
-            Hurst = None
-            sig_class = 1
+        #if result[4,0] > -0.55:
+        #    Hurst = None
+        #    sig_class = 1
     
     else:
         sig_class = 3

@@ -25,7 +25,7 @@ slice_sq = np.squeeze(slice_array)
 #imgplot = plt.imshow(slice_sq[:,:,1])
 imgplot = plt.imshow(slice_sq[:,:,1],cmap='Greys',  interpolation='nearest')
 Grey_fig = imgplot.get_figure()
-Grey_fig.savefig('Grey_Slice.png')
+Grey_fig.savefig('Grey_Slice_SCI_08.png')
 plt.close(Grey_fig)
 
 [N1,N2,N3] = slice_sq.shape
@@ -55,18 +55,20 @@ Hurst_matrix = output[:,1]
 #generate heat maps 
 
 Hurst_matrix = Hurst_matrix.reshape(N1,N2)
+np.savetxt('Hurst_matrix_SCI_08.txt',Hurst_matrix,fmt='%.2f')
 Hurst_map = sns.heatmap(Hurst_matrix)
 Hurst_fig = Hurst_map.get_figure()
 Hurst_fig.suptitle('Hurst Coefficient')
-Hurst_fig.savefig('Hurst_Heatmap.png')
+Hurst_fig.savefig('Hurst_Heatmap_SCI_08.png')
 plt.close(Hurst_fig)
 
 
 Class_matrix = Class_matrix.reshape(N1,N2)
+np.savetxt('Class_matrix_SCI_08.txt',Class_matrix,fmt='%.2f')
 Class_map = sns.heatmap(Class_matrix, vmin=0, vmax=3)
 Class_fig = Class_map.get_figure()
 Class_fig.suptitle('Class')
-Class_fig.savefig('Class_Heatmap.png')
+Class_fig.savefig('Class_Heatmap_SCI_08.png')
 plt.close(Class_fig)
 
 
