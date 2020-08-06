@@ -343,7 +343,7 @@ def FracTool(ts, tr=1):
         sig_class = 2 #signal is fBm
         Hurst = H_bdSWV
         #if Hurst value is below 0.35, it classified the signal wrong, so classify as fGn and find Hurst using fGn method
-        if Hurst < 0.30:
+        if Hurst < 0.35:
             H_PSD = (result[5,0]+1)/2 #PSD method
             temp = Disper(tsid,p)
             H_Disp = temp[0] #dispersion method
