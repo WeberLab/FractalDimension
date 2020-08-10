@@ -1,2 +1,0 @@
-This file was downloaded from: https://exhibits.stanford.edu/data/catalog/wb240zh4446
-It combined all 8 movie_run files, and then was motion corrected
