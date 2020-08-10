@@ -63,11 +63,13 @@ for x in range(slice_num):
     #num = x
     #filename = f'Outputs/Hurst_matrix{num}.txt'
     #np.savetxt(filename,Hurst_matrix,fmt='%.2f')
+
     base = np.dstack((base,Hurst_matrix))
 
 #save nifti file of base to the Outputs folder in FractalDimension   
 name = name.rstrip("nii.gz") 
-ni_img = nib.Nifti1Image(base, None)
+base = base[:,:,1:slice_num+1]
+ni_img = nib.nifti1.Nifti1Pair(base, None, n1_header)
 nib.save(ni_img, f'{name}_Hurst.nii.gz')
 
 
