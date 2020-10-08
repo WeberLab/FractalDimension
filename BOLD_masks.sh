@@ -25,11 +25,11 @@ fslmaths ${t1}_brain -subsamp2 ${t1}_brain_2mm
 
 bet $bold ${bold}_brain -m -R
 
-epi_reg --epi=${bold}_brain.nii.gz --t1=${t1}_2mm.nii.gz --t1brain=${t1}_2mm_brain.nii.gz --out=BOLD-to-T1 #registration
+epi_reg --epi=${bold}_brain.nii.gz --t1=${t1}_2mm.nii.gz --t1brain=${t1}_brain_2mm.nii.gz --out=BOLD-to-T1 #registration
 slices ${t1}_2mm.nii.gz BOLD-to-T1.nii.gz #make sure to check!
 
 convert_xfm -omat T1-to-BOLD.mat -inverse BOLD-to-T1.mat #inverse matrix from bold-to-T1 to T1-to-bold
-flirt -in ${t1}_2mm_brain.nii.gz -ref ${bold}.nii.gz -out T1-to-BOLD -init T1-to-BOLD.mat -applyxfm #register T1 to BOLD space
+flirt -in ${t1}_brain_2mm.nii.gz -ref ${bold}.nii.gz -out T1-to-BOLD -init T1-to-BOLD.mat -applyxfm #register T1 to BOLD space
 
 fast -g -o fast T1-to-BOLD.nii.gz #brain segmentation (white/grey/csf)
 
