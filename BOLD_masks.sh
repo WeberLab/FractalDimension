@@ -19,9 +19,9 @@ t1=$(remove_ext $2)
 thresh=10
 conn=6
 
-bet $t1 3DT1_brain -R -m
-fslmaths $t1 -subsamp2 3DT1_2mm
-fslmaths 3DT1_brain -subsamp2 3DT1_brain_2mm
+bet $t1 ${t1}_brain -R -m
+fslmaths $t1 -subsamp2 ${t1}_2mm
+fslmaths ${t1}_brain -subsamp2 ${t1}_brain_2mm
 
 bet $bold ${bold}_brain -m -R
 
