@@ -44,9 +44,10 @@ fslmaths greymatter.nii.gz -mul ${bold}_brain_mask_ero.nii.gz greymatter
 
 cluster -i greymatter.nii.gz -t 1 --connectivity=6 --no_table --osize=greymatter_cluster_size
 fslmaths greymatter_cluster_size.nii.gz -thr 10 -bin greymatter -odt char
-imrm greymattr_cluster_size
+imrm greymatter_cluster_size
 
 cluster -i whitematter.nii.gz -t 1 --connectivity=6 --no_table --osize=whitematter_cluster_size
 fslmaths whitematter_cluster_size.nii.gz -thr 10 -bin whitematter -odt char
 imrm whitematter_cluster_size
 
+rm BOLD-to* fast_* T1-to* ${bold}_brain* ${t1}_* 
