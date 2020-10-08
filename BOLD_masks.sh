@@ -1,0 +1,52 @@
+#!/bin/bash
+
+# Author: Alex Weber, Ph.D.
+# Date: Oct 8 2020
+
+if [ $# -lt 2 ]
+then
+    echo "Usage: $0 <mean_func file> <T1 weighted anat file>"
+    echo "Example: $0 mean_func.nii.gz sub-01_ses-1_T1w.nii.gz"
+    echo "This registers bold to T1, then T1 to bold, then creates very conservative whitematter and greymatter masks"
+    echo "[note: default cluster removal is 10 and 6]"
+    echo ""
+    exit 1
+fi
+
+bold=$(remove_ext $1)
+t1=$(remove_ext $2)
+
+thresh=10
+conn=6
+
+bet $t1 3DT1_brain -R -m
+fslmaths $t1 -subsamp2 3DT1_2mm
+fslmaths 3DT1_brain -subsamp2 3DT1_brain_2mm
+
+bet $bold ${bold}_brain -m -R
+
+epi_reg --epi=${bold}_brain.nii.gz --t1=${t1}_2mm.nii.gz --t1brain=${t1}_2mm_brain.nii.gz --out=BOLD-to-T1 #registration
+slices ${t1}_2mm.nii.gz BOLD-to-T1.nii.gz #make sure to check!
+
+convert_xfm -omat T1-to-BOLD.mat -inverse BOLD-to-T1.mat #inverse matrix from bold-to-T1 to T1-to-bold
+flirt -in ${t1}_2mm_brain.nii.gz -ref ${bold}.nii.gz -out T1-to-BOLD -init T1-to-BOLD.mat -applyxfm #register T1 to BOLD space
+
+fast -g -o fast T1-to-BOLD.nii.gz #brain segmentation (white/grey/csf)
+
+fslmaths fast_pve_0.nii.gz -thr 1 csf
+fslmaths fast_pve_1.nii.gz -thr 1 greymatter
+fslmaths fast_pve_2.nii.gz -thr 1 whitematter
+
+fslmaths ${bold}_brain_mask.nii.gz -ero ${bold}_brain_mask_ero
+
+fslmaths whitematter.nii.gz -mul ${bold}_brain_mask_ero.nii.gz whitematter
+fslmaths greymatter.nii.gz -mul ${bold}_brain_mask_ero.nii.gz greymatter
+
+cluster -i greymatter.nii.gz -t 1 --connectivity=6 --no_table --osize=greymatter_cluster_size
+fslmaths greymatter_cluster_size.nii.gz -thr 10 -bin greymatter -odt char
+imrm greymattr_cluster_size
+
+cluster -i whitematter.nii.gz -t 1 --connectivity=6 --no_table --osize=whitematter_cluster_size
+fslmaths whitematter_cluster_size.nii.gz -thr 10 -bin whitematter -odt char
+imrm whitematter_cluster_size
+
