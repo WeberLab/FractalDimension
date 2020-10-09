@@ -52,7 +52,7 @@ base = np.zeros((N1,N2))
 for x in range(slice_num):
 	#change 4th index in slice_array to change the number of timepoints
 	#ex 0:700 is first 700, : is the whole signal 
-    slice_sq = slice_array[:,:,x,:]
+    slice_sq = slice_array[:,:,x,0:700]
     output = Parallel(n_jobs=num_cores)(delayed(FracTool_voxel)(i,j) for i in row for j in column)
     output = np.array(output) #convert output into numpy array
     output = output.astype(np.float64) #convert type object list elements to type float
