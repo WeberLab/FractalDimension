@@ -47,8 +47,11 @@ def FracTool_voxel(i, j):
 
 def dfa_voxel(i,j):
     rawbold = (slice_sq[i,j])
-    result_dfa = nolds.dfa(rawbold)
-    return result_dfa
+    if np.mean(rawbold) == 0:
+        return None
+    else:
+        result_dfa = nolds.dfa(rawbold)
+        return result_dfa
 
 def hurst_voxel(i,j):
     rawbold = (slice_sq[i,j])
