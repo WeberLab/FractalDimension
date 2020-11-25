@@ -81,6 +81,7 @@ def welch_voxel(i,j):
         nperseg = math.floor(len(voxel)/8)
         noverlap = math.floor(nperseg/2)
         w = welch(voxel, fs = TR, nperseg = nperseg, noverlap = noverlap)
+        np.seterr(divide = 'ignore')
         x = np.log10(w[0])[1:].reshape((-1, 1))
         y = np.log10(w[1])[1:]
         model = LinearRegression().fit(x, y)
