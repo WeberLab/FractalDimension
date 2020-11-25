@@ -26,7 +26,7 @@ bet $t1 ${t1}_brain -R -m
 bet $bold ${bold}_brain -m -R
 
 epi_reg --epi=${bold}_brain.nii.gz --t1=${t1}.nii.gz --t1brain=${t1}_brain.nii.gz --out=BOLD-to-T1 #registration
-slices ${t1}.nii.gz BOLD-to-T1.nii.gz #make sure to check!
+#slices ${t1}.nii.gz BOLD-to-T1.nii.gz #make sure to check!
 
 convert_xfm -omat T1-to-BOLD.mat -inverse BOLD-to-T1.mat #inverse matrix from bold-to-T1 to T1-to-bold
 flirt -in ${t1}_brain.nii.gz -ref ${bold}.nii.gz -out T1-to-BOLD -init T1-to-BOLD.mat -applyxfm #register T1 to BOLD space
@@ -50,4 +50,6 @@ cluster -i whitematter.nii.gz -t 1 --connectivity=6 --no_table --osize=whitematt
 fslmaths whitematter_cluster_size.nii.gz -thr 10 -bin whitematter -odt char
 imrm whitematter_cluster_size
 
-#rm BOLD-to* fast_* T1-to* ${bold}_brain* ${t1}_* 
+slicer ${t1}.nii.gz BOLD-to-T1.nii.gz -a reg.ppm
+
+rm BOLD-to* fast_* T1-to* ${bold}_brain* ${t1}_*
