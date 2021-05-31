@@ -134,7 +134,7 @@ for x in range(slice_num):
     #Hurst_matrix_sampen = output_sampen.reshape(N1,N2)
 
     output_welch = Parallel(n_jobs=num_cores)(delayed(welch_voxel)(i,j) for i in row for j in column)
-    output_welch = np.array(output_welch) #convert output into numpy array
+    output_welch = np.array(output_welch, dtype=object) #convert output into numpy array
     output_welch = output_welch.astype(np.float64) #convert type object list elements to type float
     Hurst_matrix_welch = output_welch.reshape(N1,N2)
    
